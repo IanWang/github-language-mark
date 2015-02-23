@@ -29,9 +29,16 @@ function getLangs() {
     return node.text;
   });
 
-  repos.forEach(function(ele) {
+  repos.forEach(function(ele, index) {
     fetchApi(ele, function(res) {
-      console.log(res);
+
+      var sortable = [];
+      
+      for(var lang in res) {
+        sortable.push({ lang: res[lang] });
+      };
+
+
     });
   });
 }
