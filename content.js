@@ -60,16 +60,16 @@ function insertHTML(lang, index) {
 }
 
 function createHtml(str) {
-	var frag = document.createDocumentFragment();
-	var temp = document.createElement('span');
+  var frag = document.createDocumentFragment();
+  var temp = document.createElement('span');
 
-	temp.innerHTML = str;
+  temp.innerHTML = str;
 
-	while (temp.firstChild) {
-		frag.appendChild(temp.firstChild);
-	}
+  while (temp.firstChild) {
+    frag.appendChild(temp.firstChild);
+  }
 
-	return frag;
+  return frag;
 }
 
 function trigger() {
@@ -78,8 +78,8 @@ function trigger() {
 }
 
 if(Dashboard) {
-	trigger();
-	new MutationObserver(trigger).observe(
+  trigger();
+  new MutationObserver(trigger).observe(
     document.querySelector('.news'), {childList: true}
   );
 }
