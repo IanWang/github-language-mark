@@ -32,15 +32,21 @@ function getLangs() {
   repos.forEach(function(ele, index) {
     fetchApi(ele, function(res) {
 
-      var sortable = [];
-      
-      for(var lang in res) {
-        sortable.push({ lang: res[lang] });
-      };
+      var data = JSON.parse(res);
+      var langs = Object.keys(data).sort(function(a, b) {
+        return -(data[a] - data[b]);
+      });
 
+      insertHTML(langs[0], index);
 
     });
   });
+}
+
+function insertHTML(lang, index) {
+  var mockup = '<span style="background: rgb(221, 221, 221);margin: 0 0.6em;font-size: 12px;padding: 0.6em;border-radius: 35%;">' + lang + '</span>';
+  var mark = createHtml(mockup);
+  nodes[index].parentNode.appendChild(mark);
 }
 
 function createHtml(str) {
@@ -56,15 +62,9 @@ function createHtml(str) {
 	return frag;
 }
 
-function insertHTML(index) {
-  var mark = createHtml('<span>hi</span>');
-  nodes[index].parentNode.appendChild(mark);
-}
-
 function trigger() {
   console.log('trigger');
-  //getLangs();
-  insertHTML(0);
+  getLangs();
 }
 
 if(Dashboard) {
