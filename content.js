@@ -1,7 +1,11 @@
 'use strict';
 
 var Dashboard = document.getElementById('dashboard');
-var nodes = document.querySelectorAll('.alert .title a:last-child');
+var nodes;
+
+function getNodes() {
+  nodes = document.querySelectorAll('.alert .title a:last-child');
+}
 
 function httpGet(url, cb) {
 
@@ -30,6 +34,7 @@ function getLangs() {
   });
 
   repos.forEach(function(ele, index) {
+
     fetchApi(ele, function(res) {
 
       var data = JSON.parse(res);
@@ -37,16 +42,21 @@ function getLangs() {
         return -(data[a] - data[b]);
       });
 
-      insertHTML(langs[0], index);
+      if(langs[0]) insertHTML(langs[0], index);
 
     });
   });
 }
 
 function insertHTML(lang, index) {
-  var mockup = '<span style="background: rgb(221, 221, 221);margin: 0 0.6em;font-size: 12px;padding: 0.6em;border-radius: 35%;">' + lang + '</span>';
+  var mockup = '<span style="background: rgb(231, 231, 231);margin: 0 0.5em;font-size: 12px;padding: 2px 5px;border-radius: 5px;">' + lang + '</span>';
   var mark = createHtml(mockup);
-  nodes[index].parentNode.appendChild(mark);
+  var parentNode = nodes[index].parentNode;
+
+  parentNode.hasAttribute('lang') ? 
+    parentNode.setAttribute('lang', lang) :
+    parentNode.appendChild(mark);
+
 }
 
 function createHtml(str) {
@@ -63,15 +73,15 @@ function createHtml(str) {
 }
 
 function trigger() {
-  console.log('trigger');
+  getNodes();
   getLangs();
 }
 
 if(Dashboard) {
-  
 	trigger();
-
-	new MutationObserver(trigger).observe(document.querySelector('.news'), {childList: true});
+	new MutationObserver(trigger).observe(
+    document.querySelector('.news'), {childList: true}
+  );
 }
 
 
